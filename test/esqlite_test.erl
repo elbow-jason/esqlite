@@ -360,14 +360,20 @@ sqlite_version_test() ->
     {ok, Db} = esqlite3:open(":memory:"),
     {ok, Stmt} = esqlite3:prepare("select sqlite_version() as sqlite_version;", Db),
     {sqlite_version} =  esqlite3:column_names(Stmt),
-    ?assertEqual({row, {<<"3.27.2">>}}, esqlite3:step(Stmt)),
+    ?assertEqual({row, {<<"3.28.0">>}}, esqlite3:step(Stmt)),
     ok.
 
 sqlite_source_id_test() ->
     {ok, Db} = esqlite3:open(":memory:"),
     {ok, Stmt} = esqlite3:prepare("select sqlite_source_id() as sqlite_source_id;", Db),
     {sqlite_source_id} =  esqlite3:column_names(Stmt),
-    ?assertEqual({row, {<<"2019-02-25 16:06:06 bd49a8271d650fa89e446b42e513b595a717b9212c91dd384aab871fc1d0f6d7">>}}, esqlite3:step(Stmt)),
+    ?assertEqual({row, {<<"2019-04-16 19:49:53 884b4b7e502b4e991677b53971277adfaf0a04a284f8e483e2553d0f83156b50">>}}, esqlite3:step(Stmt)),
+    ok.
+
+create_fts5_table() ->
+    {ok, Db} = esqlite3:open(":memory:"),
+    Sql = "CREATE VIRTUAL TABLE mail USING fts5(sender, title, body, tokenize = 'porter ascii');",
+    {ok, Stmt} = esqlite3:prepare(Sql, Db),
     ok.
 
 garbage_collect_test() ->

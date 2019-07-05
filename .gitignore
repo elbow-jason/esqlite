@@ -10,3 +10,7 @@ priv
 _build
 c_src/**/*.d
 erl_crash.dump
+
+test.db
+test1.db
+test2.db
